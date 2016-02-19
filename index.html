@@ -1,25 +1,37 @@
 <!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    <meta charset="UTF-8">
-    <title>SSLPi by IoT4pi</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
-  </head>
-  <body>
-    <section class="page-header">
-      <h1 class="project-name">SSLPi</h1>
-      <h2 class="project-tagline">secure communication for the raspberry pi and several type of clients</h2>
-      <a href="https://github.com/IoT4pi/SSLPi" class="btn">View on GitHub</a>
-      <a href="https://github.com/IoT4pi/SSLPi/zipball/master" class="btn">Download .zip</a>
-      <a href="https://github.com/IoT4pi/SSLPi/tarball/master" class="btn">Download .tar.gz</a>
-    </section>
+<html>
 
-    <section class="main-content">
-      <h1>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="SSLPi : secure communication for the raspberry pi and several type of clients">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>SSLPi</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/IoT4pi/SSLPi">View on GitHub</a>
+
+          <h1 id="project_title">SSLPi</h1>
+          <h2 id="project_tagline">secure communication for the raspberry pi and several type of clients</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/IoT4pi/SSLPi/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/IoT4pi/SSLPi/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
 <a id="sslpi" class="anchor" href="#sslpi" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>SSLPi</h1>
 
 <p>secure communication for the raspberry pi and several type of clients.
@@ -168,11 +180,7 @@ An App Call can consist of one or more commands of the the server. Therefore an 
 
 <p>The format of APP_CALLS configuration Line is specified like this:</p>
 
-<p><code>No.     : Command_In ; Sequence # ; OS Command ; App+Path ; Type ; Success Return ; Arg 1 ; Arg 2 ; ..; Arg n</code>
-<code>--------+------------+------------+------------+----------+------+----------------+--------------------------</code>
-<code>running |   String   |    Number  | True/False |called by | see  |Return Value for|</code>
-<code>number  |                                      | Server   | below|a successful    |</code>
-<code>| Command        |</code></p>
+<p><code>No.     : Command_In ; Sequence # ; OS Command ; App+Path ; Type ; Success Return ; Arg 1 ; ..; Arg n</code></p>
 
 <p>All entry have running Number and a Name called Command_In.
 The Command_In is the command which could be called by a Client.
@@ -193,22 +201,31 @@ The operating systems takes care of the rest.</p>
 <p>The Type is needed by the Server, because depending on the Command Type it has to be handled different. 
 Following Types are defined:</p>
 
-<p><code>Test Command (sends back Test message)          -- Value 0</code>
-   <code>Change Dir                                      -- Value 1</code>
-        <code>(with defined directory in Argument section)</code>
-   <code>Command without a return (like rm )             -- Value 2</code>
-   <code>Command with return (like ls or pwd)            -- Value 3</code>
-   <code>Command  handles the parameters, with return        -- Value 4</code>
-   <code>Command  handles the parameters, without return         -- Value 5</code>
-   <code>Command  handles the parameters,for Change Dir      -- Value 6</code></p>
+<p><code>Test Command (sends back Test message)          -- Value 0</code></p>
+
+<p><code>Change Dir                                      -- Value 1</code>
+        <code>(with defined directory in Argument section)</code></p>
+
+<p><code>Command without a return (like rm )             -- Value 2</code></p>
+
+<p><code>Command with return (like ls or pwd)            -- Value 3</code></p>
+
+<p><code>Command  handles the parameters, with return        -- Value 4</code></p>
+
+<p><code>Command  handles the parameters, without return         -- Value 5</code></p>
+
+<p><code>Command  handles the parameters,for Change Dir      -- Value 6</code></p>
 
 <p>As you see there are already 7 types defined.
 There are three groups. 
-    <code>1) Value 0: the Test command which is an internal Test Function</code>
-    <code>2) Value 1 to 3: are Commands which will be proceeded by the Server</code>
-                <code>without a Parameter</code>
-    <code>3) Value 4 to 6: the command which has to handle the parameter</code>
-                <code>which is sent by the Client</code></p>
+    <code>1) Value 0: the Test command which is an internal Test Function</code></p>
+
+<pre><code>`2) Value 1 to 3: are Commands which will be proceeded by the Server `
+            `without a Parameter`
+
+`3) Value 4 to 6: the command which has to handle the parameter`
+            `which is sent by the Client  `
+</code></pre>
 
 <p>So, as already mentioned one APP_CALL (Command_In) can consist of more then one 
 commands. If the APP_CALL (Command_In) is sent with one Parameter you have to 
@@ -227,15 +244,18 @@ Normally you will 0 or 1 but sometimes you can not predict what you  will get bu
 
 <p>The last column is for arguments. If a command should have an additional parameter, it is defined in the argument. 
 <code>For instance "ls -l" would be separated this way : "ls" into the App+Path column and "-l" as an argument.</code></p>
+      </section>
+    </div>
 
-      <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/IoT4pi/SSLPi">SSLPi</a> is maintained by <a href="https://github.com/IoT4pi">IoT4pi</a>.</span>
-
-        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">SSLPi maintained by <a href="https://github.com/IoT4pi">IoT4pi</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
       </footer>
+    </div>
 
-    </section>
+    
 
-  
   </body>
 </html>
