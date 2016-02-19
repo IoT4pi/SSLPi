@@ -1,0 +1,136 @@
+ReadMe Installation
+===================
+First thing first:
+Thank you for downloading our Software SSLPi: 
+Read this ReadMe before the ReadMe for the Configuration (File ReadMe_Config).
+ 
+#########################################################################
+#  Copyright (C) 2016 
+#  IoT4pi <office@iot4pi.com>
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the Apache License Version 2.0 (APLv2)
+#  as published by http://www.apache.org/licenses/LICENSE-2.0 .
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  This product includes software developed by the OpenSSL Project
+#  for use in the OpenSSL Toolkit. (http://www.openssl.org/)
+###########################################################################
+
+
+So let's get started: 
+=====================
+After downloading the SSLPI_VersX.tar.gz to your System (Raspberry pi) to any given directory 
+and extract it with the command
+
+    $ tar -zxvf SSLPI_VersX.tar.gz
+
+
+this generate a directory SSLPi_VerX.
+(The X will vary depending on the version you have downloaded)
+
+Change into the directory with
+
+    $ cd SSLPI_VersX
+
+There you will see with "ls -l"
+
+ pi@Mypi ~/SSLPi_VersX $ ls -l
+ total 48
+ drwxr-xr-x 2 pi pi  4096 Jan 27 13:12 app
+ drwxr-xr-x 2 pi pi  4096 Jan 27 13:12 Test
+ -rwxr-xr-x 1 pi pi  6656 Jan 27 14:23 Install.sh
+ -rw-r--r-- 1 pi pi  4923 Jan 27 15:30 ReadMe_Install
+ -rw-r--r-- 1 pi pi  4923 Jan 27 15:30 ReadMe_Config
+- rw-r--r-- 1 pi pi  4923 Jan 27 15:30 SSLPi.cfg
+ -rw-r--r-- 1 pi pi 21557 Jan 27 15:24 SSLserverPi_VX.py
+ -rwxr-xr-x 1 pi pi   550 Jan 27 15:30 startSSLPi.sh
+
+In the app directory are sample application, to show you how to configure 
+the SSLPi to your own demands. 
+
+In the TestClient directory is a sample Python SSL Client 
+You can use it and modify it to your own needs. 
+It is tested to work together with SSLPi Server.
+
+To start the installation type 
+
+ $ sudo ./Install.sh
+
+The script is going to proof if the prerequisite software is on your system.
+It actually checks if the Python2.7 and OpenSSL is installed. 
+If not, it will exit the install script and you have to install the missing software. 
+
+As an information: 
+    you can install OpenSSL with
+        $ sudo apt-get install openssl
+
+    you can install python with
+        $ sudo apt-get install python2.7
+            But I do not think this will happen very often, 
+            because the Raspberry (& Raspian) runs Python 2.7 out of the box
+
+Next you will be asked for directory, where the SSLPi Server has to be installed. If you do not specify a 
+directory, the default directory will be created. the default directory is 
+     /home/pi/SSLPi/
+
+Next type in where to install the certificates. The default directory is 
+    /home/pi/SSLPi/Cert/
+
+As a next step the script is creating the certificates. 
+You have to type in a password three times. It has to be the same password, all the time. 
+
+Afterwards you are asked for several pieces of information.
+!!!One of the prompts will be for "Common Name (e.g., YOUR name)". It is important 
+that this field be filled in with the fully qualified domain name of the server to be protected by SSL.
+
+
+    Country Name (2 letter code) [GB]:DE
+    State or Province Name (full name) [Berkshire]:Bavaria
+    Locality Name (eg, city) [Newbury]:Munich
+    Organization Name (eg, company) [My Company Ltd]:IoT4pi
+    Organizational Unit Name (eg, section) []:Information Technology
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    !!!!!Common Name (eg, your name or your server's hostname) []:iot4pi.com !!!!!!!!
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    Email Address []:office@iot4pi
+    Please enter the following 'extra' attributes
+    to be sent with your certificate request
+    A challenge password []:
+    An optional company name []:
+
+If you have everything provided, the the script will finish successfully.
+The server will now start automatically at the reboot of the Raspberry pi. 
+Per default the server will listen at port 10023.
+
+You can now proof that everything is running OK by:
+    
+    Testing if it starts at Boot with command 
+        $sudo crontab -l
+            it should present a line like:
+            @reboot sudo /home/pi/SSLPi/startSSLPi.sh >> /home/pi/SSLPi/log 2>&1
+
+
+    after reboot you can test if the server is running with
+        $ ps aux | grep SSLserverPi
+            this should bring something like
+ 
+            root 2133 0.0  0.5  4592 2640 ?  S  08:49 0:00 sudo python /home/pi/SSLPi/SSLserverPi_VX.py
+
+You will find the Server application in the specified installation directory. In this directory there
+will be the app directory with the sample scripts. 
+The Certificates will be stored in the specified certification directory. There you will find
+
+    -rw-r--r-- 1 root root 1147 Jan 27 15:31 server.cer
+    -rw-r--r-- 1 root root 1679 Jan 27 15:30 server.key
+    -rw-r--r-- 1 root root 1751 Jan 27 15:30 server.orig.key
+    -rw-r--r-- 1 root root 1338 Jan 27 15:31 server.pem
+ 
+
+The file server.pem is the important file you will need for the clients. This file you have to copy and
+provide your clients with it. This one is the key to establish a communication withe the server. 
+Without it, the server would reject any communication attempt.   

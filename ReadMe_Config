@@ -1,0 +1,109 @@
+ReadMe Configuration
+====================
+First thing first:
+Thank you for downloading our Software SSLPi: 
+Read this ReadMe after the ReadMe for the Installation (File ReadMe_Install).
+ 
+#########################################################################
+#  Copyright (C) 2016 
+#  IoT4pi <office@iot4pi.com>
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the Apache License Version 2.0 (APLv2)
+#  as published by http://www.apache.org/licenses/LICENSE-2.0 .
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  This product includes software developed by the OpenSSL Project
+#  for use in the OpenSSL Toolkit. (http://www.openssl.org/)
+###########################################################################
+
+After you have successfully installed the software you can configure the SSLserverPi 
+to your own needs. This has to be done with the File SSLPi.cfg. 
+The configuration file SSLPi.cfg has to be stored in the same directory as the SSLserverPi_VersX.py.
+
+The Configuration is separated in two sections. 
+The section [SETUP] takes care of the global behavior of the server.
+The section [APP_CALLS] is the part where you call your own applications on the 
+Raspberry pi. To give you an idea how it is done, we provide you with a few APP Call's 
+and the referring applications/scripts which are stored in the directory "app". 
+
+Per default the server will listen at port 10023.
+If you want to change the Port, go to the section [SETUP] 
+and change the line 
+    iPort:10023
+Everything else can be left unchanged in section [SETUP], 
+if you have installed the server with the Install.sh.
+
+The section [APP_CALLS] takes care of the Configuration of the applications which
+have to be proceeded by the Server. 
+A call is initiated by a Command which is sent from the Client to the Server.
+An App Call can consist of one or more commands of the the server. Therefore an APP_CAll has a special format.
+
+The format of APP_CALLS configuration Line is specified like this:
+#
+#   No.     : Command_In ; Sequence # ; OS Command ; App+Path ; Type ; Success Return ; Arg 1 ; Arg 2 ; ..; Arg n 
+#   --------+------------+------------+------------+----------+------+----------------+--------------------------
+#   running |   String   |    Number  | True/False |called by | see  |Return Value for|
+#   number  |                                      | Server   | below|a successful    |  
+#                                                                    | Command        |
+
+
+All entry have running Number and a Name called Command_In.
+The Command_In is the command which could be called by a Client.
+The Command_In is the name of the APP_CALL. 
+An APP_CALL will sent by the Client to the Server by the Command_In String.
+A Command_In/APP_CALL can have non or one Parameter !
+
+
+Due to the fact that an APP_CALL can consist of more then on command, we have to specify in which order the commands have 
+to be proceeded by the the server. This order is specified by the sequence number Sequence #.
+
+The Value of OS Command can only be "True" or "False". In case of an OS Command the App+Path needs only the command.
+The operating systems takes care of the rest.
+
+The App+Path should be the full Path and Name of the Command, except a OS Command is used. 
+"Test" is a special command, it is an internal command which will send a Test Message back to the Client. You also have to take
+ care in the Type column using the "Test" command.
+
+The Type is needed by the Server, because depending on the Command Type it has to be handled different. 
+Following Types are defined:
+   Test Command (sends back Test message)		    -- Value 0
+   Change Dir 			                            -- Value 1
+        (with defined directory in Argument section)
+   Command without a return (like rm ) 		        -- Value 2
+   Command with return (like ls or pwd)		        -- Value 3
+   Command  handles the parameters, with return	    -- Value 4
+   Command  handles the parameters, without return - - Value 5
+   Command  handles the parameters,for Change Dir	-- Value 6  
+
+As you see there are already 7 types defined.
+There are three groups. 
+    1) Value 0: the Test command which is an internal Test Function
+    2) Value 1 to 3: are Commands which will be proceeded by the Server 
+                without a Parameter
+    3) Value 4 to 6: the command which has to handle the parameter
+                which is sent by the Client  
+
+So, as already mentioned one APP_CALL (Command_In) can consist of more then one 
+commands. If the APP_CALL (Command_In) is sent with one Parameter you have to 
+define which command in the sequence will take care of this parameter.
+See the configured examples in the SSLPi.cfg. 
+ 
+Info: 
+    All commands of one APP_CALL of a Client are proceeded in one run. 
+    The server won't  interrupt to handle an other Client in-between.
+    Therefore it is guaranteed that you can edit files, change directories 
+    and set IO's in one APP_CALL.   
+
+
+Success Return: specifies which values the the sever gets, if the launched command was successfully  processed.
+Normally you will 0 or 1 but sometimes you can not predict what you  will get but you can define what you do not want to get. 
+In this case use the Reply string {!} ("= must NOT be") with return Value (for instance {!}ERROR).
+
+The last column is for arguments. If a command should have an additional parameter, it is defined in the argument. 
+For instance "ls -l" would be separated this way : "ls" into the App+Path column and "-l" as an argument.
+   
