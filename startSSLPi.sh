@@ -1,5 +1,5 @@
 #!/bin/sh
-HOME=/home/pi/Test4/
+HOME=/home/pi/SSLPi/
 Script="SSLserverPi_V1_2.py"
 NumParam=$#
 echo $NumParam
