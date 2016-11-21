@@ -34,7 +34,7 @@ DefaultInstallPath="/home/pi/SSLPi/"
 DefaultCertPath=$DefaultInstallPath"Cert/"
 DefaultAppPath=$DefaultInstallPath"app/"
 currentDir=`pwd`
-ServerScript="SSLserverPi_V1_2.py"
+ServerScript="SSLserverPi_V1_3.py"
 
 
 
