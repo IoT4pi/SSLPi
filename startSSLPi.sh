@@ -1,6 +1,6 @@
 #!/bin/sh
 HOME=/home/pi/SSLPi/
-Script="SSLserverPi_V1_2.py"
+Script="SSLserverPi_V1_3.py"
 NumParam=$#
 echo $NumParam
 
