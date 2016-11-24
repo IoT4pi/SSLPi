@@ -81,7 +81,7 @@ Following Types are defined:
    Command  handles the parameters,for Change Dir	  -- Value 6
    Command with asynchron return value              -- Value 7
 
-As you see there are already 7 types defined.
+As you see there are already 8 types defined.
 There are four groups. 
     1) Value 0: the Test command which is an internal Test Function
     2) Value 1 to 3: are Commands which will be proceeded by the Server 
