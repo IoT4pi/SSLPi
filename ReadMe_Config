@@ -71,22 +71,26 @@ The App+Path should be the full Path and Name of the Command, except a OS Comman
 
 The Type is needed by the Server, because depending on the Command Type it has to be handled different. 
 Following Types are defined:
-   Test Command (sends back Test message)		    -- Value 0
-   Change Dir 			                            -- Value 1
+   Test Command (sends back Test message)		         -- Value 0
+   Change Dir 			                                   -- Value 1
         (with defined directory in Argument section)
-   Command without a return (like rm ) 		        -- Value 2
-   Command with return (like ls or pwd)		        -- Value 3
+   Command without a return (like rm ) 		           -- Value 2
+   Command with return (like ls or pwd)		           -- Value 3
    Command  handles the parameters, with return	    -- Value 4
    Command  handles the parameters, without return - - Value 5
-   Command  handles the parameters,for Change Dir	-- Value 6  
+   Command  handles the parameters,for Change Dir	  -- Value 6
+   Command with asynchron return value              -- Value 7
 
 As you see there are already 7 types defined.
-There are three groups. 
+There are four groups. 
     1) Value 0: the Test command which is an internal Test Function
     2) Value 1 to 3: are Commands which will be proceeded by the Server 
                 without a Parameter
     3) Value 4 to 6: the command which has to handle the parameter
-                which is sent by the Client  
+                which is sent by the Client
+    4) Value 7: Run the command asynchronously. Program is called on the Raspberry 
+                 and it is unpredictable when a feedback comes. This is used 
+                 for so-called push notifications.
 
 So, as already mentioned one APP_CALL (Command_In) can consist of more then one 
 commands. If the APP_CALL (Command_In) is sent with one Parameter you have to 
