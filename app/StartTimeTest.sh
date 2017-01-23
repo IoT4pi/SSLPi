@@ -1,6 +1,6 @@
 #!/bin/sh
 echo start Timer
-python TimeTest.py
+python -u TimeTest.py
 #sudo top | grep python >&1
 #echo new scrpit
  
